@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d11" />
+  <title>Roblox Brain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><div class="brand-mark">RB</div><div><div class="brand-name">Roblox Brain</div><div class="brand-sub">memory + coding lab</div></div></div>
+      <button class="new-chat" id="newChat">＋ New chat</button>
+      <div class="side-section-title">Chats</div>
+      <div class="chat-list" id="chatList"></div>
+      <div class="sidebar-bottom">
+        <button class="side-btn" id="memoryBtn">🧠 Memory</button>
+        <button class="side-btn" id="settingsBtn">⚙ Settings</button>
+        <a class="side-btn link-btn" href="https://github.com/" target="_blank" rel="noreferrer">↗ GitHub</a>
+        <div class="status-pill" id="statusPill"><span class="dot"></span><span id="statusText">Ready</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn mobile-only" id="menuBtn" aria-label="Open menu">☰</button>
+        <div class="mode-switch" role="tablist" aria-label="Chat mode">
+          <button class="mode-btn active" data-mode="chat">Chat</button>
+          <button class="mode-btn" data-mode="code">Code</button>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-btn" id="clearChat" title="Clear current chat">⌫</button>
+          <button class="icon-btn" id="memoryTop" title="Memory">🧠</button>
+          <button class="avatar">U</button>
+        </div>
+      </header>
+
+      <section class="chat-shell">
+        <div class="welcome" id="welcome">
+          <div class="hero-orb">⌘</div>
+          <h1>Build it. Debug it. Ship it.</h1>
+          <p>A personal AI chat that remembers what you tell it and goes hard on Roblox + Luau.</p>
+          <div class="quick-grid">
+            <button class="quick-card" data-prompt="Write me a complete Roblox Luau system for what I'm describing. Ask only the minimum needed to avoid guessing."><b>Full Roblox script</b><span>Complete, runnable Luau</span></button>
+            <button class="quick-card" data-prompt="Help me debug this Roblox code. Find the actual bug, explain why it happens, then give me the full fixed script."><b>Debug my script</b><span>Bug → cause → fixed code</span></button>
+            <button class="quick-card" data-prompt="Brainstorm a genuinely good Roblox game mechanic that is weird, replayable, and not copycat-feeling."><b>Game ideas</b><span>Systems, loops, retention</span></button>
+            <button class="quick-card" data-prompt="Explain this like we're just casually talking, but still make the answer actually useful."><b>Just talk</b><span>Normal chat + chaos</span></button>
+          </div>
+        </div>
+        <div class="messages" id="messages"></div>
+        <div class="typing" id="typing"><span></span><span></span><span></span></div>
+      </section>
+
+      <footer class="composer-wrap">
+        <div class="attachment-strip" id="attachmentStrip"></div>
+        <form class="composer" id="composer">
+          <label class="attach-btn" title="Attach images or text files">＋<input id="fileInput" type="file" accept="image/*,text/*,.lua,.luau,.json,.md,.txt,.js,.ts,.html,.css" multiple hidden></label>
+          <textarea id="input" rows="1" placeholder="Message Roblox Brain…"></textarea>
+          <button class="send-btn" id="sendBtn" type="submit">↑</button>
+        </form>
+        <div class="composer-meta"><span id="modeHint">Chat mode</span><span>Enter to send · Shift+Enter for newline</span></div>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+  <section class="modal" id="settingsModal" hidden aria-modal="true">
+    <div class="modal-head"><div><h2>Settings</h2><p>Control how your bot behaves.</p></div><button class="icon-btn close-modal">×</button></div>
+    <div class="settings-grid">
+      <label>Model<select id="modelSelect"><option value="openai/gpt-6.1-sol">GPT-6.1 Sol · coding</option><option value="openai/gpt-5.6-luna">GPT-5.6 Luna · balanced</option><option value="deepseek/deepseek-v4.1-flash">DeepSeek V4.1 Flash · fast</option><option value="anthropic/claude-sonnet-5.5">Claude Sonnet 5.5 · alternative</option></select></label>
+      <label>Reasoning<select id="reasoningSelect"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></label>
+      <label>Theme<select id="themeSelect"><option value="dark">Dark</option><option value="light">Light</option><option value="system">System</option></select></label>
+      <label>Density<select id="densitySelect"><option value="comfortable">Comfortable</option><option value="compact">Compact</option></select></label>
+    </div>
+    <label class="toggle-row"><input type="checkbox" id="autoMemory" checked><span><b>Auto-style memory</b><small>Save recurring slang, emoji energy, and phrasing examples locally.</small></span></label>
+    <label class="toggle-row"><input type="checkbox" id="timestamps"><span><b>Show timestamps</b><small>Display local time beside messages.</small></span></label>
+    <label class="field-label">Custom instructions<textarea id="customInstructions" rows="5" placeholder="Extra rules for your bot…"></textarea></label>
+    <div class="modal-actions"><button class="ghost-btn close-modal">Done</button></div>
+  </section>
+
+  <section class="modal" id="memoryModal" hidden aria-modal="true">
+    <div class="modal-head"><div><h2>Memory</h2><p>Your editable long-term context. Stored in your browser.</p></div><button class="icon-btn close-modal">×</button></div>
+    <div class="memory-add"><textarea id="memoryInput" rows="3" placeholder="Add something the bot should remember…"></textarea><button class="primary-btn" id="addMemory">Add memory</button></div>
+    <div class="memory-list" id="memoryList"></div>
+    <div class="modal-actions"><button class="ghost-btn" id="exportMemory">Export memory</button><button class="danger-btn" id="clearMemory">Clear all</button></div>
+  </section>
+
+  <script src="/app.js"></script>
+</body>
+</html>

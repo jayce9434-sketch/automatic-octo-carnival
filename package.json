@@ -1,0 +1,9 @@
+{
+  "name": "roblox-brain-chatbot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A memory-aware, Roblox-focused AI chatbot for Vercel.",
+  "scripts": {
+    "dev": "node server.mjs"
+  }
+}
